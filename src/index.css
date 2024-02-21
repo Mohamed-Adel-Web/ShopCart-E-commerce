@@ -1,0 +1,91 @@
+/** @format */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  scroll-behavior: smooth;
+}
+:root {
+  --main-color: #004d40;
+}
+@font-face {
+  font-family: Roboto;
+  src: url(../public/FONTS/Roboto-Bold.ttf);
+  font-weight: bold;
+}
+@font-face {
+  font-family: Roboto;
+  src: url(../public/FONTS/Roboto-Medium.ttf);
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url(../public/FONTS/Roboto-Light.ttf);
+  font-weight: lighter;
+}
+
+.swiper {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 1px;
+  background: #fff;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.swiper {
+  margin-left: auto;
+  margin-right: auto;
+  cursor: grab;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  color: white;
+  font-size: 0.7rem;
+}
+.nav-list::before {
+  content: "";
+  background-color: var(--main-color);
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  height: 1px;
+  width: 0;
+  transition: 0.3s;
+}
+.nav-list:hover::before {
+  width: 100%;
+}
+.forgot-pass {
+  cursor: pointer;
+  transition: 0.5s;
+}
+.forgot-pass:hover {
+  border-bottom: 1px solid var(--main-color);
+}
+
+.MuiRating-root {
+  color: var(--main-color) !important;
+}
+.logo {
+  transition: 0.3s;
+  text-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3),
+    0px -4px 10px rgba(255, 255, 255, 0.3);
+}
+.logo:hover {
+  transform: scale(1.2);
+}
+.cart-product:not(:first-child) {
+  border-top: 1px solid #e0e0e0;
+}
