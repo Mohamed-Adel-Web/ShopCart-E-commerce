@@ -17,6 +17,7 @@ import { AppDispatch, RootState } from "../store";
 import { addProduct } from "../Slices/ProductsSplice";
 import FilterProducts from "./FilterProducts";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 import HeroSection from "./HeroSection";
 let productsList;
 export default function Products() {
@@ -25,7 +26,12 @@ export default function Products() {
     return state.productsData.AllProducts;
   });
   useEffect(() => {
+    const controller = new AbortController();
+
     dispatch(productsFetch());
+    return () => {
+      controller.abort();
+    };
   }, [dispatch]);
 
   productsList = Products.map((product: product) => {
@@ -43,13 +49,15 @@ export default function Products() {
       >
         {" "}
         <Card sx={{ minWidth: 280 }}>
-          <CardMedia
-            component="img"
-            alt="green iguana"
-            height="180"
-            sx={{ objectFit: "contain" }}
-            image={`${product.image}`}
-          />
+          <Link to={`/product/${product.id}`}>
+            <CardMedia
+              component="img"
+              alt="green iguana"
+              height="180"
+              sx={{ objectFit: "contain" }}
+              image={`${product.image}`}
+            />
+          </Link>
           <CardContent>
             <Typography
               gutterBottom
@@ -99,9 +107,9 @@ export default function Products() {
             {" "}
             <Button
               variant="contained"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", borderRadius: 10 }}
               onClick={() => {
-                dispatch(addProduct(product));
+                dispatch(addProduct({ product: product, quantity: 1 }));
                 toast.success("Product Added to Cart", {
                   style: {
                     padding: "1rem",

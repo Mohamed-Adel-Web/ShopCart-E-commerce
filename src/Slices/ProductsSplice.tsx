@@ -25,6 +25,8 @@ export interface initialState {
   cartProducts: cartProducts;
   allQuantity: number;
   totalPrice: number;
+  singleProduct: product;
+  progressState: boolean;
 }
 const initialState: initialState = {
   AllProducts: [
@@ -45,12 +47,38 @@ const initialState: initialState = {
   cartProducts: [],
   allQuantity: 0,
   totalPrice: 0,
+  singleProduct: {
+    id: 0,
+    title: "",
+    price: 0,
+    description: "",
+    category: "",
+    image: "",
+    rating: {
+      rate: 0,
+      count: 0,
+    },
+  },
+  progressState: false,
 };
 export const productsFetch = createAsyncThunk(
   "productsFetch",
   async (): Promise<AllProducts> => {
-    const productsData = await axios("https://fakestoreapi.com/products");
+    const controller = new AbortController();
+    const productsData = await axios("https://fakestoreapi.com/products", {
+      signal: controller.signal,
+    });
     return productsData.data;
+  }
+);
+export const singleProductFetch = createAsyncThunk(
+  "singleProductFetch",
+  async (id: number): Promise<product> => {
+    const controller = new AbortController();
+    const productData = await axios(`https://fakestoreapi.com/products/${id}`, {
+      signal: controller.signal,
+    });
+    return productData.data;
   }
 );
 export const categoryFetch = createAsyncThunk(
@@ -78,20 +106,25 @@ export const ProductsSlice = createSlice({
     addProduct: (state, action) => {
       state.allQuantity = 0;
       state.totalPrice = 0;
+      console.log(action.payload.product.id);
+      console.log(action.payload.quantity);
       const exist = state.cartProducts.find(
-        (product) => product.id === action.payload.id
+        (product) => product.id === action.payload.product.id
       );
       if (exist) {
         const updatedCart: cartProducts = state.cartProducts.map((product) => {
-          return action.payload.id == product.id
-            ? { ...product, quantity: product.quantity + 1 }
+          return action.payload.product.id === product.id
+            ? {
+                ...product,
+                quantity: product.quantity + action.payload.quantity,
+              }
             : product;
         });
         state.cartProducts = updatedCart;
       } else {
         state.cartProducts = [
           ...state.cartProducts,
-          { ...action.payload, quantity: 1 },
+          { ...action.payload.product, quantity: action.payload.quantity },
         ];
       }
       state.cartProducts.map((product) => {
@@ -148,12 +181,27 @@ export const ProductsSlice = createSlice({
     builder
       .addCase(productsFetch.fulfilled, (state, action) => {
         state.AllProducts = action.payload;
+        state.progressState = false;
+      })
+      .addCase(productsFetch.pending, (state) => {
+        state.progressState = true;
       })
       .addCase(categoryFetch.fulfilled, (state, action) => {
         state.category = action.payload;
       })
       .addCase(filteredProductsFetch.fulfilled, (state, action) => {
         state.AllProducts = action.payload;
+        state.progressState = false;
+      })
+      .addCase(filteredProductsFetch.pending, (state) => {
+        state.progressState = true;
+      })
+      .addCase(singleProductFetch.fulfilled, (state, action) => {
+        state.singleProduct = action.payload;
+        state.progressState = false;
+      })
+      .addCase(singleProductFetch.pending, (state) => {
+        state.progressState = true;
       });
   },
 });
