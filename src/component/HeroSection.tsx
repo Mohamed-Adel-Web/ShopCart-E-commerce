@@ -38,7 +38,7 @@ const image: string[] = [
 ];
 const ImagesList = image.map((image) => {
   return (
-    <SwiperSlide style={{ position: "relative" }}>
+    <SwiperSlide key={image} style={{ position: "relative" }}>
       <CardMedia
         component="img"
         alt="green iguana"

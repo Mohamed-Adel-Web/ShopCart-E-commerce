@@ -2,7 +2,6 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
 export interface product {
   id: number;
   title: string;
@@ -27,6 +26,9 @@ export interface initialState {
   totalPrice: number;
   singleProduct: product;
   progressState: boolean;
+  minPrice: number;
+  maxPrice: number;
+  filteredProducts: AllProducts;
 }
 const initialState: initialState = {
   AllProducts: [
@@ -60,6 +62,22 @@ const initialState: initialState = {
     },
   },
   progressState: false,
+  minPrice: 0,
+  maxPrice: 0,
+  filteredProducts: [
+    {
+      id: 0,
+      title: "",
+      price: 0,
+      description: "",
+      category: "",
+      image: "",
+      rating: {
+        rate: 0,
+        count: 0,
+      },
+    },
+  ],
 };
 export const productsFetch = createAsyncThunk(
   "productsFetch",
@@ -176,12 +194,26 @@ export const ProductsSlice = createSlice({
         state.totalPrice += product.quantity * product.price;
       });
     },
+    priceFilter: (state, action) => {
+      state.filteredProducts = state.filteredProducts.filter((product) => {
+        return (
+          Math.round(product.price) >= action.payload.min &&
+          Math.round(product.price) <= action.payload.max
+        );
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
       .addCase(productsFetch.fulfilled, (state, action) => {
         state.AllProducts = action.payload;
         state.progressState = false;
+        const priceRange = state.AllProducts.map((product) => {
+          return product.price;
+        });
+        state.minPrice = Math.min(...priceRange);
+        state.maxPrice = Math.max(...priceRange);
+        state.filteredProducts = state.AllProducts;
       })
       .addCase(productsFetch.pending, (state) => {
         state.progressState = true;
@@ -190,7 +222,8 @@ export const ProductsSlice = createSlice({
         state.category = action.payload;
       })
       .addCase(filteredProductsFetch.fulfilled, (state, action) => {
-        state.AllProducts = action.payload;
+        state.filteredProducts = action.payload;
+
         state.progressState = false;
       })
       .addCase(filteredProductsFetch.pending, (state) => {
@@ -206,5 +239,10 @@ export const ProductsSlice = createSlice({
   },
 });
 export default ProductsSlice.reducer;
-export const { addProduct, getCartProducts, removeProduct, deleteProduct } =
-  ProductsSlice.actions;
+export const {
+  addProduct,
+  getCartProducts,
+  removeProduct,
+  deleteProduct,
+  priceFilter,
+} = ProductsSlice.actions;

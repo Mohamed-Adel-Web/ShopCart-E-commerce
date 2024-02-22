@@ -23,17 +23,15 @@ let productsList;
 export default function Products() {
   const dispatch = useDispatch<AppDispatch>();
   const Products = useSelector((state: RootState) => {
-    return state.productsData.AllProducts;
+    return state.productsData.filteredProducts;
   });
   useEffect(() => {
     const controller = new AbortController();
-
     dispatch(productsFetch());
     return () => {
       controller.abort();
     };
-  }, [dispatch]);
-
+  }, []);
   productsList = Products.map((product: product) => {
     const modifiedTitle: string = product.title.slice(0, 16) + "....";
     return (

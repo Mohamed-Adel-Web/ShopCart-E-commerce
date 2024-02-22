@@ -1,5 +1,4 @@
 /** @format */
-
 import Drawer from "@mui/material/Drawer";
 import { Box } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
@@ -8,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import CloseIcon from "@mui/icons-material/Close";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
+import Slider from "@mui/material/Slider";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -15,6 +15,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
+import { priceFilter } from "../Slices/ProductsSplice";
 import { useDispatch, useSelector } from "react-redux";
 import {
   categoryFetch,
@@ -31,6 +32,12 @@ export default function FilterProducts() {
   const category = useSelector((state: RootState) => {
     return state.productsData.category;
   });
+  const minPrice = useSelector((state: RootState) => {
+    return Math.round(state.productsData.minPrice);
+  });
+  const maxPrice = useSelector((state: RootState) => {
+    return Math.round(state.productsData.maxPrice);
+  });
   useEffect(() => {
     dispatch(categoryFetch());
   }, [dispatch]);
@@ -39,6 +46,10 @@ export default function FilterProducts() {
       <FormControlLabel key={cat} value={cat} control={<Radio />} label={cat} />
     );
   });
+  const [value, setValue] = useState<number[]>([0, 0]);
+  const handleChange = (event: Event, newValue: number | number[]) => {
+    setValue(newValue as number[]);
+  };
   return (
     <>
       <Box
@@ -52,6 +63,7 @@ export default function FilterProducts() {
           sx={{ fontWeight: "bold" }}
           onClick={() => {
             setOpen(true);
+            setValue([minPrice, maxPrice]);
           }}
           startIcon={<FilterAltIcon />}
         >
@@ -62,6 +74,7 @@ export default function FilterProducts() {
           onClick={() => {
             dispatch(productsFetch());
             setCategoryValue("");
+            setValue([minPrice, maxPrice]);
           }}
           startIcon={<FilterAltOffIcon />}
         >
@@ -104,6 +117,7 @@ export default function FilterProducts() {
                 onClick={() => {
                   dispatch(productsFetch());
                   setCategoryValue("");
+                  setValue([minPrice, maxPrice]);
                   setOpen(false);
                 }}
               >
@@ -143,6 +157,61 @@ export default function FilterProducts() {
                   variant="contained"
                   onClick={() => {
                     dispatch(filteredProductsFetch(categoryValue));
+                    setOpen(false);
+                  }}
+                >
+                  Apply
+                </Button>
+              </AccordionDetails>
+            </Accordion>{" "}
+            <Accordion sx={{ margin: "2rem 0" }}>
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                aria-controls="panel2-content"
+                id="panel2-header"
+                sx={{ background: "#fafafa" }}
+              >
+                <Typography sx={{ fontWeight: "bold", color: "primary.main" }}>
+                  Price
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Slider
+                  getAriaLabel={() => "Temperature range"}
+                  value={value}
+                  onChange={handleChange}
+                  valueLabelDisplay="auto"
+                  shiftStep={10}
+                  step={1}
+                  marks
+                  min={minPrice}
+                  max={maxPrice}
+                />
+                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                  <Typography
+                    sx={{ fontWeight: "bold", color: "primary.main" }}
+                    variant="body2"
+                  >
+                    min ${value[0]}
+                  </Typography>
+                  <Typography
+                    sx={{ fontWeight: "bold", color: "primary.main" }}
+                    variant="body2"
+                  >
+                    max ${value[1]}
+                  </Typography>
+                </Box>
+                <Button
+                  sx={{ marginTop: "1rem" }}
+                  fullWidth
+                  variant="contained"
+                  onClick={() => {
+                    dispatch(
+                      priceFilter({
+                        min: value[0],
+                        max: value[1],
+                      })
+                    );
                     setOpen(false);
                   }}
                 >
