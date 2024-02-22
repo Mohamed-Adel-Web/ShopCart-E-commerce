@@ -17,7 +17,7 @@ export default function SignIn() {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleMouseDownPassword = (event) => {
+  const handleMouseDownPassword = (event:React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
   return (

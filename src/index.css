@@ -8,6 +8,7 @@
   list-style: none;
   scroll-behavior: smooth;
 }
+
 :root {
   --main-color: #004d40;
 }
@@ -88,4 +89,11 @@
 }
 .cart-product:not(:first-child) {
   border-top: 1px solid #e0e0e0;
+}
+
+.swiper-pagination-fraction,
+.swiper-pagination-custom,
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  display: none;
 }

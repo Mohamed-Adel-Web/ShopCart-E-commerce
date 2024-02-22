@@ -24,58 +24,59 @@ export default function Account({ open, handleClose }: drawer) {
   };
 
   return (
-    <div>
-      <>
-        <Drawer anchor={"right"} open={open}>
-          <Typography>
+    <>
+      <Drawer anchor={"right"} open={open}>
+        <Typography>
+          <Box
+            className={"form"}
+            sx={{ padding: "3rem", width: { md: "450px", xs: "100vw" } }}
+          >
             <Box
-              className={"form"}
-              sx={{ padding: "2rem", width: { md: "450px", xs: "100vw" } }}
+              className={"form-header"}
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                fontWeight: "bold",
+                fontSize: "1.5rem",
+                color: "primary.main",
+              }}
             >
-              <Box
-                className={"form-header"}
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                  fontSize: "1.5rem",
-                  color: "primary.main",
+              LOGIN
+              <IconButton
+                onClick={() => {
+                  handleClose();
                 }}
               >
-                LOGIN
-                <IconButton
-                  onClick={() => {
-                    handleClose();
-                  }}
-                >
-                  <CloseIcon sx={{ fontSize: "2rem" }} />
-                </IconButton>
-              </Box>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                sx={{ marginTop: "2rem" }}
-                centered
-              >
-                <Tab
-                  label="SIGN IN"
-                  sx={{
-                    fontSize: "1rem",
-                    marginRight: "4rem",
-                    fontWeight: "bold",
-                  }}
-                />
-                <Tab
-                  label="Register"
-                  sx={{ fontSize: "1rem", fontWeight: "bold" }}
-                />
-              </Tabs>
-              {value == 0 ? <SignIn /> : <Register />}
+                <CloseIcon sx={{ fontSize: "2rem" }} />
+              </IconButton>
             </Box>
-          </Typography>
-        </Drawer>
-      </>
-    </div>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              sx={{ marginTop: "2rem" }}
+              centered
+            >
+              <Tab
+                label="SIGN IN"
+                sx={{
+                  fontSize: "1rem",
+                  marginRight: "4rem",
+                  fontWeight: "bold",
+                }}
+              />
+              <Tab
+                label="Register"
+                sx={{
+                  fontSize: "1rem",
+                  fontWeight: "bold",
+                }}
+              />
+            </Tabs>
+            {value == 0 ? <SignIn /> : <Register />}
+          </Box>
+        </Typography>
+      </Drawer>
+    </>
   );
 }
