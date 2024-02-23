@@ -26,6 +26,7 @@ export default function Products() {
     return state.productsData.filteredProducts;
   });
   useEffect(() => {
+    window.scrollTo(0, 0);
     const controller = new AbortController();
     dispatch(productsFetch());
     return () => {

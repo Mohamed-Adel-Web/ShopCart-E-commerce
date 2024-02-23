@@ -34,6 +34,7 @@ export default function ProductDetails() {
   });
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const controller = new AbortController();
     dispatch(singleProductFetch(Number(productId)));
     return () => {

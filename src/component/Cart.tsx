@@ -26,7 +26,7 @@ import {
   removeProduct,
   deleteProduct,
 } from "../Slices/ProductsSplice";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 let cartList;
 export default function Cart() {
   const [open, setOpen] = useState(false);
@@ -38,6 +38,9 @@ export default function Cart() {
   const handleClose = () => {
     setOpen(false);
   };
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  },[]);
   const dispatch = useDispatch<AppDispatch>();
   const cartProducts: cartProduct[] = useSelector((state: RootState) => {
     return state.productsData.cartProducts;

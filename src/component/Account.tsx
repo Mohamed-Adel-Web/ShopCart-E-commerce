@@ -16,10 +16,7 @@ interface drawer {
 
 export default function Account({ open, handleClose }: drawer) {
   const [value, setValue] = useState(0);
-  const handleChange = (
-    _event: React.ChangeEvent<HTMLElement>,
-    newValue: number
-  ) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

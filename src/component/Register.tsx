@@ -124,13 +124,8 @@ export default function Register() {
           }}
         />
       </FormControl>
-      <DemoItem label="Date of Birth" sx={{ margin: "2rem 0" }}>
-        <DesktopDatePicker
-          value={formData.date}
-          onChange={(dateNewValue) => {
-            setFormData({ ...formData, date: dateNewValue.$d ?? null });
-          }}
-        />
+      <DemoItem label="Date of Birth" >
+        <DesktopDatePicker  />
       </DemoItem>
       <FormControl sx={{ margin: "2rem 0" }}>
         <FormLabel id="demo-row-radio-buttons-group-label">Gender</FormLabel>

@@ -63,9 +63,7 @@ export default function SignIn() {
           sx={{ fontSize: "1rem" }}
           control={<Checkbox sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }} />}
           label={
-            <Typography variant="headline" component={"h6"}>
-              Remember me
-            </Typography>
+            <Typography sx={{ fontSize: "0.7rem",fontWeight:"bold" }}>Remember me</Typography>
           }
         />
         <h6 className="forgot-pass">forgot password ?</h6>{" "}

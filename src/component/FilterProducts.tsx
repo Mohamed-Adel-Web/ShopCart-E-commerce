@@ -43,7 +43,7 @@ export default function FilterProducts() {
     );
   });
   const [value, setValue] = useState<number[]>([0, 0]);
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  const handleChange = (_event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
   return (
