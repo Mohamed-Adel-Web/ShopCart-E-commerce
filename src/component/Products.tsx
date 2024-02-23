@@ -129,6 +129,7 @@ export default function Products() {
   return (
     <>
       <HeroSection />
+
       <Container maxWidth="lg" sx={{ marginTop: "3rem" }}>
         <Toaster
           position="top-right"

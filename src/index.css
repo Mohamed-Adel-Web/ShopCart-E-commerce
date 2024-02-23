@@ -97,3 +97,8 @@
 .swiper-pagination-bullets.swiper-pagination-horizontal {
   display: none;
 }
+.footer {
+  background-image: url("../public/Image/footer\ 4.png");
+  background-position: center;
+  background-size: cover;
+}

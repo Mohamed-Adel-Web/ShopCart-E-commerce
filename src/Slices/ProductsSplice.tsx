@@ -108,15 +108,7 @@ export const categoryFetch = createAsyncThunk(
     return categoryData.data;
   }
 );
-export const filteredProductsFetch = createAsyncThunk(
-  "filteredProductsFetch",
-  async (cat: string): Promise<AllProducts> => {
-    const filteredProductsData = await axios(
-      `https://fakestoreapi.com/products/category/${cat}`
-    );
-    return filteredProductsData.data;
-  }
-);
+
 export const ProductsSlice = createSlice({
   name: "Products",
   initialState,
@@ -194,19 +186,30 @@ export const ProductsSlice = createSlice({
         state.totalPrice += product.quantity * product.price;
       });
     },
-    priceFilter: (state, action) => {
-      state.filteredProducts = state.filteredProducts.filter((product) => {
-        return (
-          Math.round(product.price) >= action.payload.min &&
-          Math.round(product.price) <= action.payload.max
-        );
-      });
+    Filter: (state, action) => {
+      if (action.payload.category === "All") {
+        state.filteredProducts = state.AllProducts.filter((product) => {
+          return (
+            Math.round(product.price) >= action.payload.min &&
+            Math.round(product.price) <= action.payload.max
+          );
+        });
+      } else {
+        state.filteredProducts = state.AllProducts.filter((product) => {
+          return (
+            Math.round(product.price) >= action.payload.min &&
+            Math.round(product.price) <= action.payload.max &&
+            product.category == action.payload.category
+          );
+        });
+      }
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(productsFetch.fulfilled, (state, action) => {
         state.AllProducts = action.payload;
+
         state.progressState = false;
         const priceRange = state.AllProducts.map((product) => {
           return product.price;
@@ -220,14 +223,6 @@ export const ProductsSlice = createSlice({
       })
       .addCase(categoryFetch.fulfilled, (state, action) => {
         state.category = action.payload;
-      })
-      .addCase(filteredProductsFetch.fulfilled, (state, action) => {
-        state.filteredProducts = action.payload;
-
-        state.progressState = false;
-      })
-      .addCase(filteredProductsFetch.pending, (state) => {
-        state.progressState = true;
       })
       .addCase(singleProductFetch.fulfilled, (state, action) => {
         state.singleProduct = action.payload;
@@ -244,5 +239,5 @@ export const {
   getCartProducts,
   removeProduct,
   deleteProduct,
-  priceFilter,
+  Filter,
 } = ProductsSlice.actions;

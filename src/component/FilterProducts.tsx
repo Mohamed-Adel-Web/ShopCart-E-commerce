@@ -15,19 +15,15 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff";
-import { priceFilter } from "../Slices/ProductsSplice";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  categoryFetch,
-  filteredProductsFetch,
-  productsFetch,
-} from "../Slices/ProductsSplice";
+import { categoryFetch, productsFetch } from "../Slices/ProductsSplice";
 import { AppDispatch, RootState } from "../store";
 import { useEffect, useState } from "react";
+import { Filter } from "../Slices/ProductsSplice";
 let categoryList;
 export default function FilterProducts() {
   const [open, setOpen] = useState(false);
-  const [categoryValue, setCategoryValue] = useState("");
+  const [categoryValue, setCategoryValue] = useState("All");
   const dispatch = useDispatch<AppDispatch>();
   const category = useSelector((state: RootState) => {
     return state.productsData.category;
@@ -75,6 +71,7 @@ export default function FilterProducts() {
             dispatch(productsFetch());
             setCategoryValue("");
             setValue([minPrice, maxPrice]);
+            setCategoryValue("All");
           }}
           startIcon={<FilterAltOffIcon />}
         >
@@ -118,6 +115,7 @@ export default function FilterProducts() {
                   dispatch(productsFetch());
                   setCategoryValue("");
                   setValue([minPrice, maxPrice]);
+                  setCategoryValue("All");
                   setOpen(false);
                 }}
               >
@@ -150,20 +148,8 @@ export default function FilterProducts() {
                     </RadioGroup>
                   </FormControl>
                 </Typography>
-                <Button
-                  disabled={categoryValue == "" ? true : false}
-                  sx={{ marginTop: "1rem" }}
-                  fullWidth
-                  variant="contained"
-                  onClick={() => {
-                    dispatch(filteredProductsFetch(categoryValue));
-                    setOpen(false);
-                  }}
-                >
-                  Apply
-                </Button>
               </AccordionDetails>
-            </Accordion>{" "}
+            </Accordion>
             <Accordion sx={{ margin: "2rem 0" }}>
               <AccordionSummary
                 expandIcon={<ArrowDropDownIcon />}
@@ -201,24 +187,25 @@ export default function FilterProducts() {
                     max ${value[1]}
                   </Typography>
                 </Box>
-                <Button
-                  sx={{ marginTop: "1rem" }}
-                  fullWidth
-                  variant="contained"
-                  onClick={() => {
-                    dispatch(
-                      priceFilter({
-                        min: value[0],
-                        max: value[1],
-                      })
-                    );
-                    setOpen(false);
-                  }}
-                >
-                  Apply
-                </Button>
               </AccordionDetails>
             </Accordion>{" "}
+            <Button
+              sx={{ marginTop: "1rem" }}
+              fullWidth
+              variant="contained"
+              onClick={() => {
+                dispatch(
+                  Filter({
+                    category: categoryValue,
+                    min: value[0],
+                    max: value[1],
+                  })
+                );
+                setOpen(false);
+              }}
+            >
+              Apply
+            </Button>
           </Box>
         </Typography>
       </Drawer>

@@ -11,9 +11,14 @@ import Banner from "./Banner";
 import PersonIcon from "@mui/icons-material/Person";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
+import CircularProgress from "@mui/material/CircularProgress";
 import { getCartProducts } from "../Slices/ProductsSplice";
+import Backdrop from "@mui/material/Backdrop";
 import { Link } from "react-router-dom";
 export default function NavBar() {
+    const progressState = useSelector((state: RootState) => {
+    return state.productsData.progressState;
+  });
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const productQuantity = useSelector((state: RootState) => {
@@ -27,6 +32,12 @@ export default function NavBar() {
   }
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={progressState}
+      >
+        <CircularProgress />
+      </Backdrop>
       <AppBar position="sticky" sx={{ background: "#f5f5f5" }}>
         <Banner />
         <Container
