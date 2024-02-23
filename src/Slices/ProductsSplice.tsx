@@ -116,8 +116,6 @@ export const ProductsSlice = createSlice({
     addProduct: (state, action) => {
       state.allQuantity = 0;
       state.totalPrice = 0;
-      console.log(action.payload.product.id);
-      console.log(action.payload.quantity);
       const exist = state.cartProducts.find(
         (product) => product.id === action.payload.product.id
       );

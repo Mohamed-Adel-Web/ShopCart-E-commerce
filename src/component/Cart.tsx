@@ -40,7 +40,7 @@ export default function Cart() {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-  },[]);
+  }, []);
   const dispatch = useDispatch<AppDispatch>();
   const cartProducts: cartProduct[] = useSelector((state: RootState) => {
     return state.productsData.cartProducts;
@@ -52,6 +52,7 @@ export default function Cart() {
     return state.productsData.totalPrice;
   });
   cartList = cartProducts.map((product) => {
+    console.log(product.id);
     return (
       <Box
         className="cart-product"
@@ -120,7 +121,7 @@ export default function Cart() {
               <IconButton
                 aria-label="increase"
                 onClick={() => {
-                  dispatch(addProduct(product));
+                  dispatch(addProduct({ product, quantity: 1 }));
                 }}
               >
                 <AddIcon />{" "}
