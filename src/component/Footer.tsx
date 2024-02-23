@@ -23,11 +23,11 @@ export default function Footer() {
     <Box className="footer" sx={{ marginTop: "9rem", overflow: "hidden" }}>
       <Container maxWidth="xl" sx={{ padding: "7rem 0" }}>
         <Grid container spacing={4}>
-          <Grid xs={12} md={4}>
+          <Grid xs={12} lg={4}>
             <Item
               sx={{
                 backgroundColor: "inherit",
-                textAlign: { md: "left", xs: "center" },
+                textAlign: { lg: "left", xs: "center" },
                 padding: "2rem",
               }}
               elevation={24}
@@ -54,11 +54,11 @@ export default function Footer() {
               </Typography>
             </Item>
           </Grid>
-          <Grid xs={12} md={2}>
+          <Grid xs={12} lg={2}>
             <Item
               sx={{
                 backgroundColor: "inherit",
-                textAlign: { md: "left", xs: "center" },
+                textAlign: { lg: "left", xs: "center" },
                 padding: "2rem",
               }}
               elevation={24}
@@ -107,11 +107,11 @@ export default function Footer() {
               </Typography>
             </Item>
           </Grid>
-          <Grid xs={12} md={2}>
+          <Grid xs={12} lg={2}>
             <Item
               sx={{
                 backgroundColor: "inherit",
-                textAlign: { md: "left", xs: "center" },
+                textAlign: { lg: "left", xs: "center" },
                 padding: "2rem",
               }}
               elevation={24}
@@ -154,11 +154,11 @@ export default function Footer() {
               </Typography>
             </Item>
           </Grid>
-          <Grid xs={12} md={4}>
+          <Grid xs={12} lg={4}>
             <Item
               sx={{
                 backgroundColor: "inherit",
-                textAlign: { md: "left", xs: "center" },
+                textAlign: { lg: "left", xs: "center" },
                 padding: "2rem",
               }}
               elevation={24}
@@ -180,7 +180,7 @@ export default function Footer() {
                   alignItems: "center",
                   margin: "0.5rem 0",
                   fontWeight: "bold",
-                  justifyContent: { md: "left", xs: "center" },
+                  justifyContent: { lg: "left", xs: "center" },
                 }}
               >
                 <CallIcon sx={{ marginRight: "0.5rem" }} /> (209)555-0104
@@ -192,7 +192,7 @@ export default function Footer() {
                   alignItems: "center",
                   margin: "1rem 0",
                   fontWeight: "bold",
-                  justifyContent: { md: "left", xs: "center" },
+                  justifyContent: { lg: "left", xs: "center" },
                 }}
               >
                 <EmailIcon sx={{ marginRight: "0.5rem", fontWeight: "bold" }} />{" "}
@@ -205,7 +205,7 @@ export default function Footer() {
                   alignItems: "center",
                   margin: "1rem 0",
                   fontWeight: "bold",
-                  justifyContent: { md: "left", xs: "center" },
+                  justifyContent: { lg: "left", xs: "center" },
                 }}
               >
                 <EmailIcon sx={{ marginRight: "0.5rem", fontWeight: "bold" }} />{" "}
