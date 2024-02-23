@@ -3,6 +3,7 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
+import Container from "@mui/material/Container";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import Typography from "@mui/material/Typography";
@@ -15,8 +16,11 @@ const bannerData: string[] = [
 export default function Banner() {
   const bannerList = bannerData.map((banner: string, index: number) => {
     return (
-      <SwiperSlide style={{ background: "#004d40" }} key={index}>
-        {banner}
+      <SwiperSlide
+        style={{ background: "#004d40", display: "flex", flexWrap: "wrap" }}
+        key={index}
+      >
+        <Container maxWidth="lg" >{banner}</Container>
       </SwiperSlide>
     );
   });
